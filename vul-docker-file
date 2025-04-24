@@ -1,0 +1,26 @@
+#Vulnerable Dockerfile
+
+# Start from CentOS 7 base image
+FROM centos:7
+
+# Install Python 3.6 and other packages
+RUN yum install -y python36 && \
+    yum install -y openssl-1.0.2k && \
+    yum clean all
+
+# Install an outdated version of urllib3 with known vulnerabilities
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3 && \
+    pip3 install urllib3==1.25.8
+
+# Copy a vulnerable Python script (or a placeholder)
+RUN echo "import urllib3\n" \
+         "http = urllib3.PoolManager()\n" \
+         "r = http.request('GET', 'http://example.com')\n" \
+         "print('Hello World!')" > /app.py
+
+# Expose port (not actually needed for the SBOM, but for running the app)
+EXPOSE 8080
+
+# Run the Python script (placeholder for actual web app)
+CMD ["python3", "/app.py"]
+
