@@ -1,0 +1,23 @@
+FROM centos:7
+
+# Install Python 3.6 and outdated OpenSSL, urllib3 (vulnerable versions)
+RUN yum install -y python36 && \
+    yum install -y openssl-1.0.2k && \
+    yum clean all
+
+# Install outdated urllib3 with a known CVE
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3 && \
+    pip3 install urllib3==1.25.8
+
+# Copy a sample Python script that uses urllib3 (placeholder for app logic)
+RUN echo "import urllib3\n" \
+         "http = urllib3.PoolManager()\n" \
+         "r = http.request('GET', 'http://example.com')\n" \
+         "print('Vulnerable App!')" > /app.py
+
+# Expose a port (for testing)
+EXPOSE 8080
+
+# Run the Python script as the app (for testing)
+CMD ["python3", "/app.py"]
+
