@@ -1,0 +1,79 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "version": 1,
+  "components": [
+    {
+      "type": "library",
+      "name": "openssl",
+      "version": "1.0.2k",
+      "purl": "pkg:rpm/openssl@1.0.2k",
+      "licenses": [{"license": {"id": "OpenSSL"}}],
+      "vulnerabilities": [
+        {
+          "cve": "CVE-2016-6304",
+          "severity": "high",
+          "description": "OpenSSL TLS renegotiation vulnerability."
+        },
+        {
+          "cve": "CVE-2019-1551",
+          "severity": "critical",
+          "description": "OpenSSL 1.0.2k vulnerabilities related to buffer overflow."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "urllib3",
+      "version": "1.25.8",
+      "purl": "pkg:pypi/urllib3@1.25.8",
+      "licenses": [{"license": {"id": "MIT"}}],
+      "vulnerabilities": [
+        {
+          "cve": "CVE-2021-33503",
+          "severity": "high",
+          "description": "urllib3 version 1.25.8 contains a DoS vulnerability."
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "django",
+      "version": "2.2.0",
+      "purl": "pkg:pypi/django@2.2.0",
+      "licenses": [{"license": {"id": "BSD-3-Clause"}}],
+      "vulnerabilities": [
+        {
+          "cve": "CVE-2019-19844",
+          "severity": "high",
+          "description": "Django 2.2.0 contains a remote code execution vulnerability."
+        }
+      ]
+    },
+    {
+      "type": "container",
+      "name": "nginx",
+      "version": "1.14.2",
+      "purl": "pkg:deb/nginx@1.14.2",
+      "licenses": [{"license": {"id": "BSD-2-Clause"}}],
+      "vulnerabilities": [
+        {
+          "cve": "CVE-2019-11043",
+          "severity": "critical",
+          "description": "Nginx 1.14.2 has a vulnerability in the HTTP/2 module that could lead to remote code execution."
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "timestamp": "2024-04-25T00:00:00Z",
+    "tools": [
+      {
+        "vendor": "manual",
+        "name": "example-scanner",
+        "version": "0.1"
+      }
+    ]
+  }
+}
+
