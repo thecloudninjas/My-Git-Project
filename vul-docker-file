@@ -1,26 +1,25 @@
-#Vulnerable Dockerfile
+# Use an outdated version of Python
+FROM python:3.13.2-slim
 
-# Start from CentOS 7 base image
-FROM centos:7
+# Install a potentially outdated package (use of a package with known vulnerabilities)
+RUN pip install --no-cache-dir flask==0.12.2
 
-# Install Python 3.6 and other packages
-RUN yum install -y python36 && \
-    yum install -y openssl-1.0.2k && \
-    yum clean all
+# Setting unsafe file permissions
+RUN mkdir /app && chmod -R 777 /app
 
-# Install an outdated version of urllib3 with known vulnerabilities
-RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3 && \
-    pip3 install urllib3==1.25.8
+# Expose the default port for a web server (but no firewall)
+EXPOSE 5000
 
-# Copy a vulnerable Python script (or a placeholder)
-RUN echo "import urllib3\n" \
-         "http = urllib3.PoolManager()\n" \
-         "r = http.request('GET', 'http://example.com')\n" \
-         "print('Hello World!')" > /app.py
+# Use a weak user (or root) to run the application
+USER root
 
-# Expose port (not actually needed for the SBOM, but for running the app)
-EXPOSE 8080
+# Copy insecure or sensitive files into the container
+COPY ./config/ /app/config/
 
-# Run the Python script (placeholder for actual web app)
-CMD ["python3", "/app.py"]
+# Run an application with a hardcoded password or insecure config
+COPY ./app.py /app/
+RUN echo "app_password = 'hardcodedpassword'" >> /app/app.py
+
+# Set the entrypoint to run the application
+CMD ["python", "/app/app.py"]
 
